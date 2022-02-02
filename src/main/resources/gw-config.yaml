@@ -1,0 +1,66 @@
+global:
+  port: ${env:APP_PORT:-4000}
+  http:
+    keep_alive: 60s
+    max_idle: 100
+    follow_redirects: false
+    timeouts:
+      connect: 5s
+      read: 5s
+    requests:
+      max: 100
+      max_per_host: 20
+
+routes:
+  - name: admin-routes
+    path: /admin/{routes}
+    methods: [ get ]
+    target:
+      type: mapped
+      endpoint_param: routes
+      path_mode: ignore
+      path_param: alala
+  - name: public-api
+    path: /apis/2/{endpoint}/<end-path>
+    methods: [get, post, put, patch, delete]
+    target:
+      type: mapped
+      endpoint_param: endpoint
+      path_param: end-path
+      path_mode: append
+  - name: public-api-old
+    path: /apis/1/{endpoint}/<end-path>
+    methods: [ get, post, patch, delete ]
+    target:
+      type: mapped
+      endpoint_param: endpoint
+      path_param: end-path
+      path_mode: append
+#  - name: find-phone
+#    path: /find-phone
+#    target:
+#      type: static
+#      target: phonesvc
+#      path: /find/phone
+#      pathmode: ignore
+
+endpoints:
+    - name: usersvc
+      alias: hello-service-endpoint
+      url: http://user.svc.mini/
+      http:
+        timeouts:
+          connect: 5s
+          read: 20s
+    - name: routes
+      alias: my-routes
+      url: http://localhost:4000/routes
+    - name: phonesvc
+      alias: phone-service-endpoint
+      url: http://phone.svc.mini/
+      http:
+        timeouts:
+          connect: 5s
+          read: 5s
+
+
