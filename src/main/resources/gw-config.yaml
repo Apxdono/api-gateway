@@ -13,13 +13,13 @@ global:
 
 routes:
   - name: admin-routes
-    path: /admin/{routes}
-    methods: [ get ]
+    path: /admin/routes
+    methods: [get]
     target:
-      type: mapped
-      endpoint_param: routes
-      path_mode: ignore
-      path_param: alala
+      type: direct
+      endpoint: self
+      path: routes
+      path_mode: append
   - name: public-api
     path: /apis/2/{endpoint}/<end-path>
     methods: [get, post, put, patch, delete]
@@ -36,13 +36,7 @@ routes:
       endpoint_param: endpoint
       path_param: end-path
       path_mode: append
-#  - name: find-phone
-#    path: /find-phone
-#    target:
-#      type: static
-#      target: phonesvc
-#      path: /find/phone
-#      pathmode: ignore
+
 
 endpoints:
     - name: usersvc
@@ -52,9 +46,9 @@ endpoints:
         timeouts:
           connect: 5s
           read: 20s
-    - name: routes
+    - name: self
       alias: my-routes
-      url: http://localhost:4000/routes
+      url: http://localhost:4000
     - name: phonesvc
       alias: phone-service-endpoint
       url: http://phone.svc.mini/

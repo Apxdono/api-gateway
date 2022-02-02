@@ -37,9 +37,6 @@ public class RouteRegistration {
     }
 
     private static Handler initHandler(Config config, Route route, Invoker invoker) {
-        if (route.target().type() == RouteTarget.Type.MAPPED) {
-            return new MappedEndpointHandler(config, new Router(config, route), invoker);
-        }
-        return ctx -> {};
+        return new MappedEndpointHandler(config, new Router(config, route), invoker);
     }
 }

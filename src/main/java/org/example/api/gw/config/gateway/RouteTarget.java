@@ -12,7 +12,8 @@ import java.util.function.Function;
         use = JsonTypeInfo.Id.NAME,
         property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = MappedRouteTarget.class, name = "mapped")
+        @JsonSubTypes.Type(value = MappedRouteTarget.class, name = "mapped"),
+        @JsonSubTypes.Type(value = DirectRouteTarget.class, name = "direct")
 })
 public abstract class RouteTarget {
     protected Type type;
@@ -28,8 +29,8 @@ public abstract class RouteTarget {
     public enum Type {
         @JsonProperty("mapped")
         MAPPED,
-        @JsonProperty("static")
-        STATIC
+        @JsonProperty("direct")
+        DIRECT
     }
 
     public enum PathMode {
